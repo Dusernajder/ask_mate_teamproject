@@ -13,6 +13,17 @@ def home():
     return render_template('home.html', questions=questions)
 
 
+@app.route("/add-question", methods=["GET, POST"])
+def add_question():
+
+    if request.method == 'POST':
+        return redirect("/")
+
+    return render_template('')
+
+    return render_template('add_question.html')
+
+
 if __name__ == "__main__":
     app.run(
         debug=True
