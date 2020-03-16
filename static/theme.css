@@ -1,0 +1,20 @@
+.grid{
+    margin: 10px;
+    padding-top: 10px;
+    display: grid;
+    grid-template-rows: minmax(2em, auto);
+}
+
+#content{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#info{
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
