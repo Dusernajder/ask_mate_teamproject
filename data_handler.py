@@ -11,7 +11,8 @@ QUESTION_DATA_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.
 ANSWER_CSV_LENGTH = sum(1 for row in csv.reader('sample_data/data.csv'))
 QUESTION_CSV_LENGTH = sum(1 for row in csv.reader('sample_data/data.csv'))
 
-path = ANSWER_DATA_FILE_PATH
+
+TEMPLATE_HEADER = ['TITLE', 'DATE', 'VIEWS', 'VOTES']
 
 
 def read_elements_csv(path, header):
@@ -24,7 +25,7 @@ def read_elements_csv(path, header):
         return temp_lst
 
 
-def add_element_csv(row, csv_length, filepath):
+def add_element_csv(path, row, csv_length, filepath):
     print(csv_length)
     temp_lst = insert_element_csv(row, csv_length, path)
 
@@ -34,7 +35,7 @@ def add_element_csv(row, csv_length, filepath):
             csv_writer.writerow(line.values())
 
 
-def insert_element_csv(row, index, csv_length):
+def insert_element_csv(path, row, index, csv_length):
     temp_lst = read_elements_csv(path)
     zip_row = zip(temp_lst[0].keys(), row)
     dict_row = dict((key, value) for key, value in zip_row)
@@ -46,12 +47,12 @@ def insert_element_csv(row, index, csv_length):
     return temp_lst
 
 
-def get_id():
+def get_id(path):
     return len(read_elements_csv(path))
 
 
-def get_element_by_id(user_id):
-    for elt in read_elements_csv(path):
+def get_element_by_id(path, user_id, header):
+    for elt in read_elements_csv(path, header):
         if elt['id'] == str(user_id):
             return elt
 

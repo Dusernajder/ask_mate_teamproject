@@ -1,23 +1,45 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <div class="grid">
-    {% for question in questions %}
-        <div id="content">
-            <div id="title">
-                <h2><a href="question/{{ question.id }}">{{ question.title }}</a></h2>
-            </div>
-            <div id="info">
-                <div>
-                    <p> {{ question.submission_time }} </p>
-                </div>
-                <div>
-                    <p> &#x1f44d; {{ question.vote_number }}</p>
-                </div>
-                <div>
-                    <p> &#x1f441; {{ question.view_number }}</p>
-                </div>
-            </div>
+    <div class="list_grid">
+        <div id="headers">
+            {% for header in headers %}
+                <div>{{ header }}</div>
+            {% endfor %}
         </div>
-    {% endfor %}
+        {% for question in questions %}
+            <div id="questions">
+                <div><a href="question/{{ question.id }}">{{ question.title }}</a></div>
+                <div>{{ question.submission_time }}</div>
+                <div>{{ question.vote_number }}</div>
+                <div>{{ question.vote_number }}</div>
+            </div>
+        {% endfor %}
+
+    </div>
 {% endblock %}
+
+{#    <div class="grid">#}
+{#    <div id="headers">#}
+{#        {% for header in headers %}#}
+{#                <h1>{{ header }}</h1>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#    {% for question in questions %}#}
+{#        <div id="content">#}
+{#            <div id="title">#}
+{#                <h2><a href="question/{{ question.id }}">{{ question.title }}</a></h2>#}
+{#            </div>#}
+{#            <div id="info">#}
+{#                <div>#}
+{#                    <p> {{ question.submission_time }} </p>#}
+{#                </div>#}
+{#                <div>#}
+{#                    <p> &#x1f44d; {{ question.vote_number }}</p>#}
+{#                </div>#}
+{#                <div>#}
+{#                    <p> &#x1f441; {{ question.view_number }}</p>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    {% endfor %}#}
