@@ -7,6 +7,7 @@ question_header = ['id','submission_time','view_number','vote_number','title,mes
 ANSWER_DATA_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/answer.csv'
 QUESTION_DATA_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/question.csv'
 
+
 def read_elements_csv(path):
     temp_lst = []
     with open(path) as file:
@@ -15,4 +16,3 @@ def read_elements_csv(path):
             dictionary = {key: value for key, value in zip(answers_header, row)}
             temp_lst.append(dictionary)
         return temp_lst
-print(read_elements_csv(QUESTION_DATA_FILE_PATH))

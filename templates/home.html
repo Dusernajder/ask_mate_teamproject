@@ -1,4 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+    {% for question in questions %}
+        <p>{{ question }}</p>
+    {% endfor %}
 {% endblock %}
