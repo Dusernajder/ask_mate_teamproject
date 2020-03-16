@@ -38,7 +38,7 @@ def insert_element_csv(row, index, csv_length):
     zip_row = zip(temp_lst[0].keys(), row)
     dict_row = dict((key, value) for key, value in zip_row)
     print(dict_row)
-    if index == CSV_LENGTH:
+    if index == csv_length:
         temp_lst.append(dict_row)
     else:
         temp_lst[index] = dict_row
