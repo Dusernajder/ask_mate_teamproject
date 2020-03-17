@@ -20,17 +20,16 @@ def show_question(question_id):
     return render_template('question.html', question=selected_question, answers=answers)
 
 
-@app.route("/add-question", methods=["GET, POST"])
+@app.route("/add-question", methods=["GET", "POST"])
 def add_question():
 
     if request.method == 'POST':
         question_id = data_handler.get_id(data_handler.QUESTION_DATA_FILE_PATH)
         title = request.form['title']
         message = request.form['message']
-
         return redirect("/")
 
-    return render_template('add_question-html')
+    return render_template('add_question.html')
 
 
 if __name__ == "__main__":
