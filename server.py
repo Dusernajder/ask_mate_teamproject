@@ -49,7 +49,7 @@ def answers(question_id):
     list_to_csv = []
     temp_lst = []
     questions = data_handler.read_elements_csv(QUESTION_DATA_FILE_PATH, )
-    question_dict = data_handler.find_ids(questions, question_id)
+    question_dict = data_handler.get_element_by_id(ANSWER_DATA_FILE_PATH, question_id)
     answers = data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH, )
 
     if request.method == 'POST':
