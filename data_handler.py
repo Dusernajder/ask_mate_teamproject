@@ -53,3 +53,8 @@ def get_element_by_id(path, user_id, header):
     for elt in read_elements_csv(path, header):
         if elt['id'] == str(user_id):
             return elt
+
+def find_ids(dict_list, target_id):
+    for dict in dict_list:
+        if dict['id'] == target_id:
+            return dict
