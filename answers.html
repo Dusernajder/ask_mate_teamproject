@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="answers_grid">
+    <div id="question">
+        <article id="question">
+            <h3>{{ question.title }}</h3>
+            <textarea id="question" cols="50" rows="8" DISABLED>{{ question.message }}</textarea>
+            <p>{{ question.submission_time }}</p>
+        </article>
+
+    </div>
+    <div id="headers">
+        <div><h2 align="left">Answers</h2></div>
+    </div>
+    <div id="answers">
+        {% for dict in answers %}
+            {% for key, value in dict.items() %}
+                {% if key == 'question_id' and value == question.id %}
+                    <textarea id="answer_messages" cols="50" rows="8" disabled>{{ dict.message }}</textarea>
+                    <p>{{ dict.submission_time }}</p>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        <div id="test">
+            <div>{{ list }}</div>
+        </div>
+        <form name="question" method="post">
+        <div><h4 align="left">Your answer</h4></div>
+                <label for="img">Select image:</label>
+                <input type="file" id="img" name="img" accept="image/jpeg">
+                <textarea name="answer_message" id="answer_form" cols="50" rows="8"></textarea>
+        <div id="submit">
+            <button type="submit" name="submit">Submit</button>
+        </div>
+        </form>
+
+    </div>
+
+</div>
+{% endblock %}
