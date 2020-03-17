@@ -2,17 +2,20 @@
 
 {% block content %}
 
-    <h1>Add Question</h1>
+    <h1 align="center">Add Question</h1>
 
-    {#    <form name="question" method="post">#}
-    {#        <div id="title">#}
-    {#            <label for="title">Title</label>#}
-    {#            <input name="title">#}
-    {#        </div>#}
-    {#        <div id="message">#}
-    {#            <label for="message">Message</label>#}
-    {#            <textarea name="message"></textarea>#}
-    {#        </div>#}
-    {#    </form>#}
+    <form name="question" method="post">
+        <div id="title">
+            <label for="title">Title</label><br>
+            <input name="title">
+        </div>
+        <div id="message">
+            <label for="message" >Message</label><br>
+            <textarea name="message" cols="80" rows="5"></textarea>
+        </div>
+        <div id="submit">
+            <button name="submit" type="submit">Submit</button>
+        </div>
+    </form>
 
 {% endblock %}
