@@ -22,16 +22,12 @@ def read_elements_csv(path):
         for row in data[1:]:
             dictionary = {key: value for key, value in zip(header, row)}
             temp_lst.append(dictionary)
-        print(*data[1:], sep="\n")
-        print(QUESTION_CSV_LENGTH)
-        print(ANSWER_CSV_LENGTH)
         return temp_lst
 
 
 def append_csv_by_row(path, row):
     data = read_elements_csv(path)
     fieldnames = answers_header if path == ANSWER_DATA_FILE_PATH else question_header
-    print('fieldnames: ' + str(fieldnames))
 
     with open(path, 'w') as file:
         data.append(dict(zip(fieldnames, row)))
