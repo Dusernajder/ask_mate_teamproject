@@ -20,7 +20,7 @@ def show_question(question_id):
     return render_template('question.html', question=selected_question, answers=answers)
 
 
-@app.route("/add-question", methods=["GET, POST"])
+@app.route("/add-question", methods=["GET", "POST"])
 def add_question():
 
     if request.method == 'POST':
@@ -28,9 +28,11 @@ def add_question():
         title = request.form['title']
         message = request.form['message']
 
+        # row = [question_id, date, view, vote, title, message]
+        # data_handler.add_element_csv(row, data_handler.QUESTION_DATA_FILE_PATH)
         return redirect("/")
 
-    return render_template('add_question-html')
+    return render_template('add_question.html')
 
 
 if __name__ == "__main__":
