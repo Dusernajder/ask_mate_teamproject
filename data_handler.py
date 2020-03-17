@@ -7,10 +7,8 @@ question_header = ['id', 'submission_time', 'view_number', 'vote_number', 'title
 ANSWER_DATA_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/answer.csv'
 QUESTION_DATA_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/question.csv'
 
-
 ANSWER_CSV_LENGTH = sum(1 for row in csv.reader('sample_data/data.csv'))
 QUESTION_CSV_LENGTH = sum(1 for row in csv.reader('sample_data/data.csv'))
-
 
 TEMPLATE_HEADER = ['TITLE', 'DATE', 'VIEWS', 'VOTES']
 
@@ -48,11 +46,12 @@ def insert_element_csv(path, row, index, csv_length):
 
 
 def get_id(path):
-    return len(read_elements_csv(path))
+    temp_lst = read_elements_csv(path, question_header)
+    length = len(temp_lst) - 1
+    return temp_lst[length]['id']
 
 
 def get_element_by_id(path, user_id, header):
     for elt in read_elements_csv(path, header):
         if elt['id'] == str(user_id):
             return elt
-
