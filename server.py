@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, request, url_for
 import data_handler
-from data_handler import QUESTION_DATA_FILE_PATH, question_header, ANSWER_DATA_FILE_PATH, answers_header, TEMPLATE_HEADER
+from data_handler import QUESTION_DATA_FILE_PATH, question_header, ANSWER_DATA_FILE_PATH, answers_header, \
+    TEMPLATE_HEADER
 import util
 
 app = Flask(__name__)
@@ -8,24 +9,34 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    questions = util.convert_timestamp(data_handler.read_elements_csv(QUESTION_DATA_FILE_PATH, question_header))
+    questions = util.convert_timestamp_to_date(data_handler.read_elements_csv(QUESTION_DATA_FILE_PATH))
     return render_template('home.html', questions=questions, headers=TEMPLATE_HEADER)
 
 
 @app.route('/question/<question_id>')
 def show_question(question_id):
-    selected_question = data_handler.get_element_by_id(QUESTION_DATA_FILE_PATH, question_id, question_header)
-    answers = data_handler.get_element_by_id(ANSWER_DATA_FILE_PATH, question_id, answers_header)
+    selected_question = data_handler.get_element_by_id(QUESTION_DATA_FILE_PATH, question_id)
+    answers = data_handler.get_element_by_id(ANSWER_DATA_FILE_PATH, question_id)
     return render_template('question.html', question=selected_question, answers=answers)
 
 
 @app.route("/add-question", methods=["GET", "POST"])
 def add_question():
+    q_id = data_handler.get_id(data_handler.QUESTION_DATA_FILE_PATH)
+    # data_handler.append_csv_by_row(data_handler.QUESTION_DATA_FILE_PATH, row)
+    print(q_id)
+    # print()
+    # print(row)
+    # dateTimeObj = util.datetime.now()
+    # timestamp = dateTimeObj.strftime("%d-%b-%Y (%H%M%S)")
+    # print(timestamp)
 
     if request.method == 'POST':
         question_id = data_handler.get_id(data_handler.QUESTION_DATA_FILE_PATH)
+
         title = request.form['title']
         message = request.form['message']
+
         # row = [question_id, date, view, vote, title, message]
         # data_handler.add_element_csv(row, data_handler.QUESTION_DATA_FILE_PATH)
         return redirect("/")
