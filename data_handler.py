@@ -7,20 +7,29 @@ question_header = ['id', 'submission_time', 'view_number', 'vote_number', 'title
 ANSWER_DATA_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/answer.csv'
 QUESTION_DATA_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/question.csv'
 
-ANSWER_CSV_LENGTH = sum(1 for row in csv.reader('sample_data/data.csv'))
-QUESTION_CSV_LENGTH = sum(1 for row in csv.reader('sample_data/data.csv'))
+ANSWER_CSV_LENGTH = int(sum(1 for row in csv.reader('sample_data/data.csv')) / 4 - 2)
+QUESTION_CSV_LENGTH = int(sum(1 for row in csv.reader('sample_data/data.csv')) / 4 - 2)
 
 TEMPLATE_HEADER = ['TITLE', 'DATE', 'VIEWS', 'VOTES']
 
 
-def read_elements_csv(path, header):
+def read_elements_csv(path):
     temp_lst = []
     with open(path) as file:
         csv_reader = csv.reader(file)
-        for row in csv_reader:
+        data = list(csv_reader)
+        header = data[0]
+        for row in data[1:]:
             dictionary = {key: value for key, value in zip(header, row)}
             temp_lst.append(dictionary)
+        print(*data[1:], sep="\n")
+        print(QUESTION_CSV_LENGTH)
+        print(ANSWER_CSV_LENGTH)
         return temp_lst
+
+
+# def append_csv_by_row(path, row):
+
 
 
 def add_element_csv(path, row, csv_length, filepath):
@@ -46,9 +55,10 @@ def insert_element_csv(path, row, index, csv_length):
 
 
 def get_id(path):
-    temp_lst = read_elements_csv(path, question_header)
+    temp_lst = read_elements_csv(path)
     length = len(temp_lst) - 1
-    return temp_lst[length]['id']
+    # print(temp_lst[length]['id'])
+    return int(temp_lst[length]['id']) + 1
 
 
 def get_element_by_id(path, user_id, header):
