@@ -8,8 +8,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    questions = data_handler.read_elements_csv(QUESTION_DATA_FILE_PATH, question_header)
-    questions = util.convert_timestamp(questions)
+    questions = util.convert_timestamp(data_handler.read_elements_csv(QUESTION_DATA_FILE_PATH, question_header))
     return render_template('home.html', questions=questions, headers=TEMPLATE_HEADER)
 
 
@@ -27,6 +26,8 @@ def add_question():
         question_id = data_handler.get_id(data_handler.QUESTION_DATA_FILE_PATH)
         title = request.form['title']
         message = request.form['message']
+        # row = [question_id, date, view, vote, title, message]
+        # data_handler.add_element_csv(row, data_handler.QUESTION_DATA_FILE_PATH)
         return redirect("/")
 
     return render_template('add_question.html')
