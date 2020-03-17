@@ -45,16 +45,10 @@ def append_csv_by_row(path, row):
 def get_id(path):
     temp_lst = read_elements_csv(path)
     length = len(temp_lst) - 1
-    # print(temp_lst[length]['id'])
     return int(temp_lst[length]['id']) + 1
 
 
-def get_element_by_id(path, user_id, header):
-    for elt in read_elements_csv(path, header):
-        if elt['id'] == str(user_id):
-            return elt
-
-def find_ids(dict_list, target_id):
-    for dict in dict_list:
-        if dict['id'] == target_id:
-            return dict
+def get_element_by_id(path, target_id):
+    for row in read_elements_csv(path):
+        if row['id'] == str(target_id):
+            return row
