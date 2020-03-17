@@ -48,3 +48,8 @@ def get_element_by_id(path, target_id):
     for row in read_elements_csv(path):
         if row['id'] == str(target_id):
             return row
+
+
+def sort(path, order):
+    data = read_elements_csv(path)
+    return sorted(data, key=lambda item: item[order])
