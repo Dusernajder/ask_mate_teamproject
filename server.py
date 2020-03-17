@@ -22,23 +22,18 @@ def show_question(question_id):
 
 @app.route("/add-question", methods=["GET", "POST"])
 def add_question():
-    q_id = data_handler.get_id(data_handler.QUESTION_DATA_FILE_PATH)
-    # data_handler.append_csv_by_row(data_handler.QUESTION_DATA_FILE_PATH, row)
-    print(q_id)
-    # print()
-    # print(row)
-    # dateTimeObj = util.datetime.now()
-    # timestamp = dateTimeObj.strftime("%d-%b-%Y (%H%M%S)")
-    # print(timestamp)
-
     if request.method == 'POST':
         question_id = data_handler.get_id(data_handler.QUESTION_DATA_FILE_PATH)
-
+        date = util.get_unix_time()
+        view = 0
+        vote = 0
         title = request.form['title']
         message = request.form['message']
+        image = 'iamge.jpg'  # It will change
 
-        # row = [question_id, date, view, vote, title, message]
-        # data_handler.add_element_csv(row, data_handler.QUESTION_DATA_FILE_PATH)
+        row = [question_id, date, view, vote, title, message, image]
+        data_handler.append_csv_by_row(data_handler.QUESTION_DATA_FILE_PATH, row)
+
         return redirect("/")
 
     return render_template('add_question.html')
@@ -48,9 +43,9 @@ def add_question():
 def answers(question_id):
     list_to_csv = []
     temp_lst = []
-    questions = data_handler.read_elements_csv(QUESTION_DATA_FILE_PATH)
-    question_dict = data_handler.get_element_by_id(ANSWER_DATA_FILE_PATH, question_id)
-    answers = data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH)
+
+    question_dict = data_handler.get_element_by_id(QUESTION_DATA_FILE_PATH, question_id)
+    answers = data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH, )
 
     if request.method == 'POST':
         message = request.form['answer_message']
@@ -67,7 +62,7 @@ def answers(question_id):
         data_handler.append_csv_by_row(ANSWER_DATA_FILE_PATH, temp_lst)
         return redirect('/')
 
-    return render_template('answers.html', question=question_dict, answers=answers)
+    return render_template('answers.html', question=question_dict, answers=answers, )
 
 
 if __name__ == "__main__":
