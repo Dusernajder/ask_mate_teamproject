@@ -22,23 +22,18 @@ def show_question(question_id):
 
 @app.route("/add-question", methods=["GET", "POST"])
 def add_question():
-    q_id = data_handler.get_id(data_handler.QUESTION_DATA_FILE_PATH)
-    # data_handler.append_csv_by_row(data_handler.QUESTION_DATA_FILE_PATH, row)
-    print(q_id)
-    # print()
-    # print(row)
-    # dateTimeObj = util.datetime.now()
-    # timestamp = dateTimeObj.strftime("%d-%b-%Y (%H%M%S)")
-    # print(timestamp)
-
     if request.method == 'POST':
         question_id = data_handler.get_id(data_handler.QUESTION_DATA_FILE_PATH)
-
+        date = util.get_unix_time()
+        view = 0
+        vote = 0
         title = request.form['title']
         message = request.form['message']
+        image = 'iamge.jpg'  # It will change
 
-        # row = [question_id, date, view, vote, title, message]
-        # data_handler.add_element_csv(row, data_handler.QUESTION_DATA_FILE_PATH)
+        row = [question_id, date, view, vote, title, message, image]
+        data_handler.append_csv_by_row(data_handler.QUESTION_DATA_FILE_PATH, row)
+
         return redirect("/")
 
     return render_template('add_question.html')
