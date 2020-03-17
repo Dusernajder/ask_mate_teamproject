@@ -28,30 +28,18 @@ def read_elements_csv(path):
         return temp_lst
 
 
-# def append_csv_by_row(path, row):
+def append_csv_by_row(path, row):
+    data = read_elements_csv(path)
+    fieldnames = answers_header if path == ANSWER_DATA_FILE_PATH else question_header
+    print('fieldnames: ' + str(fieldnames))
 
+    with open(path, 'w') as file:
+        data.append(dict(zip(fieldnames, row)))
+        csv_writer = csv.DictWriter(file, fieldnames=fieldnames)
+        csv_writer.writeheader()
 
-
-def add_element_csv(path, row, csv_length, filepath):
-    print(csv_length)
-    temp_lst = insert_element_csv(row, csv_length, path)
-
-    with open(filepath, 'w') as file:
-        csv_writer = csv.writer(file)
-        for line in temp_lst:
-            csv_writer.writerow(line.values())
-
-
-def insert_element_csv(path, row, index, csv_length):
-    temp_lst = read_elements_csv(path)
-    zip_row = zip(temp_lst[0].keys(), row)
-    dict_row = dict((key, value) for key, value in zip_row)
-    print(dict_row)
-    if index == csv_length:
-        temp_lst.append(dict_row)
-    else:
-        temp_lst[index] = dict_row
-    return temp_lst
+        for line in data:
+            csv_writer.writerow(line)
 
 
 def get_id(path):
