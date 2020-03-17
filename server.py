@@ -48,9 +48,9 @@ def add_question():
 def answers(question_id):
     list_to_csv = []
     temp_lst = []
-    questions = data_handler.read_elements_csv(QUESTION_DATA_FILE_PATH, )
+    questions = data_handler.read_elements_csv(QUESTION_DATA_FILE_PATH)
     question_dict = data_handler.get_element_by_id(ANSWER_DATA_FILE_PATH, question_id)
-    answers = data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH, )
+    answers = data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH)
 
     if request.method == 'POST':
         message = request.form['answer_message']
@@ -67,7 +67,7 @@ def answers(question_id):
         data_handler.append_csv_by_row(ANSWER_DATA_FILE_PATH, temp_lst)
         return redirect('/')
 
-    return render_template('answers.html', question=question_dict, answers=answers, )
+    return render_template('answers.html', question=question_dict, answers=answers)
 
 
 if __name__ == "__main__":
