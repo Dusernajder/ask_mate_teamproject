@@ -49,3 +49,15 @@ def get_element_by_id(path, target_id):
         if row['id'] == str(target_id):
             return row
 
+
+def update_csv(path, data):
+    with open(f'sample_data/{path}', 'w') as file:
+        writer = csv.writer(file)
+        writer.writerow(question_header)
+        for row in data:
+            writer.writerow(row)
+
+            # with open(file_name, "w") as file:
+            #     for record in table:
+            #         row = separator.join(record)
+            #         file.write(row + "\n")

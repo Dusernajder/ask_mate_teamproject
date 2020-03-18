@@ -65,6 +65,13 @@ def answers(question_id):
     return render_template('answers.html', question=question_dict, answers=answers, )
 
 
+@app.route('/delete_question/<question_id>')
+def delete_question(question_id):
+    remove_from_qs = util.remove_question(question_id)
+    data_handler.update_csv('question.csv', [list(dictionary.values()) for dictionary in remove_from_qs])
+    return redirect('/')
+
+
 if __name__ == "__main__":
     app.run(
         debug=True
