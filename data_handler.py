@@ -12,15 +12,18 @@ QUESTION_CSV_LENGTH = int(sum(1 for row in csv.reader('sample_data/data.csv')) /
 
 TEMPLATE_HEADER = ['TITLE', 'DATE', 'VIEWS', 'VOTES']
 
+UPLOAD_FOLDER = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'static/images/'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+
 
 def read_elements_csv(path):
     temp_lst = []
     with open(path) as file:
         csv_reader = csv.reader(file)
         data = list(csv_reader)
-        header = data[0]
+        fieldnames = data[0]
         for row in data[1:]:
-            dictionary = {key: value for key, value in zip(header, row)}
+            dictionary = {key: value for key, value in zip(fieldnames, row)}
             temp_lst.append(dictionary)
         return temp_lst
 

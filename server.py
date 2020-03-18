@@ -1,11 +1,14 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, flash
 import data_handler
 from data_handler import QUESTION_DATA_FILE_PATH, question_header, ANSWER_DATA_FILE_PATH, answers_header, \
-    TEMPLATE_HEADER
+    TEMPLATE_HEADER, UPLOAD_FOLDER
+from werkzeug.utils import secure_filename
 import util
 import os
 
 app = Flask(__name__)
+app.secret_key = "secret_key"
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route("/")
@@ -30,17 +33,19 @@ def add_question():
         vote = 0
         title = request.form['title']
         message = request.form['message']
-        image = 'iamge.jpg'  # It will change
 
-        row = [question_id, date, view, vote, title, message, image]
+        # You can not upload a question without a picture yet :(
+        image = request.files['image']
+        image.save(os.path.join(UPLOAD_FOLDER, secure_filename(image.filename)))
+
+        row = [question_id, date, view, vote, title, message, image.filename]
         data_handler.append_csv_by_row(data_handler.QUESTION_DATA_FILE_PATH, row)
-
-        return redirect("/")
 
     return render_template('add_question.html')
 
 
 app.config['UPLOAD_IMAGE'] = '/home/dani/PycharmProjects/ask_mate_teamproject/static/image'
+
 
 @app.route('/answers/<question_id>', methods=['GET', 'POST'])
 def answers(question_id):
@@ -51,6 +56,8 @@ def answers(question_id):
     answers = data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH)
 
     if request.method == 'POST':
+        image = request.files['image']
+        image.save(os.path.join(UPLOAD_FOLDER, secure_filename(image.filename)))
 
         message = request.form['answer_message']
 
@@ -70,7 +77,6 @@ def answers(question_id):
 
 @app.route('/answers/<answer_id>/vote_up', methods=['GET', 'POST'])
 def up_vote_answers(answer_id):
-
     if request.method == 'POST':
         answers = data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH)
 
@@ -82,7 +88,6 @@ def up_vote_answers(answer_id):
 
 @app.route('/answers/<answer_id>/vote_down', methods=['GET', 'POST'])
 def down_vote_answers(answer_id):
-
     if request.method == 'POST':
         answers = data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH)
 
@@ -96,10 +101,25 @@ def down_vote_answers(answer_id):
 def delete_question(question_id):
     remove_from_qs = util.remove_question(question_id)
     remove_answers = util.remove_answers(question_id)
-    data_handler.update_csv('question.csv', [list(dictionary.values()) for dictionary in remove_from_qs], question_header)
+    data_handler.update_csv('question.csv', [list(dictionary.values()) for dictionary in remove_from_qs],
+                            question_header)
     data_handler.update_csv('answer.csv', [list(dictionary.values()) for dictionary in remove_answers], answers_header)
 
     return redirect(request.url)
+
+
+# @app.route('/delete_question/<question_id>')
+# def delete_question(question_id):
+#     remove_from_qs = util.remove_question(question_id)
+#     remove_answers = util.remove_answers(question_id)
+# <<<<<<< HEAD
+#     data_handler.update_csv('question.csv', [list(dictionary.values()) for dictionary in remove_from_qs],
+#                             question_header)
+# =======
+#     data_handler.update_csv('question.csv', [list(dictionary.values()) for dictionary in remove_from_qs], question_header)
+# >>>>>>> 7c28497e6d1cd3cc8c3a673e27eb64f4f0cb259d
+#     data_handler.update_csv('answer.csv', [list(dictionary.values()) for dictionary in remove_answers], answers_header)
+#     return redirect('/')
 
 
 if __name__ == "__main__":

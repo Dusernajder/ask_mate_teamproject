@@ -4,15 +4,22 @@
 
     <h1 align="center">Add Question</h1>
 
-    <form name="question" method="post">
+    <form name="question" method="post" enctype=multipart/form-data>
         <div id="title">
             <label for="title">Title</label><br>
             <input name="title">
         </div>
+
         <div id="message">
-            <label for="message" >Message</label><br>
+            <label for="message">Message</label><br>
             <textarea name="message" cols="60" rows="5"></textarea>
         </div>
+
+        <div id="image">
+            <label for="image">Select image:</label>
+            <input name="image" type="file">
+        </div>
+
         <div id="submit">
             <button name="submit" type="submit">Submit</button>
         </div>
