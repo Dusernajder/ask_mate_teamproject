@@ -24,3 +24,11 @@ def remove_question(question_id):
         if question['id'] == question_id:
             del questions[i]
     return questions
+
+
+def remove_answers(question_id):
+    answers = data_handler.read_elements_csv(data_handler.ANSWER_DATA_FILE_PATH)
+    for i, answer in enumerate(answers):
+        if answer['id'] == question_id:
+            del answers[i]
+    return answers

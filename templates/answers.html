@@ -13,21 +13,31 @@
         <div><h2 align="left">Answers</h2></div>
     </div>
     <div id="answers">
+
         {% for dict in answers %}
+
             {% for key, value in dict.items() %}
                 {% if key == 'question_id' and value == question.id %}
+
                     <textarea id="answer_messages" cols="50" rows="8" disabled>{{ dict.message }}</textarea>
                     <p>{{ dict.submission_time }}</p>
+                    <p>Votes {{ dict.vote_number }}</p>
+                    <form name="answer_up_vote" method="post" action="/answers/{{ dict.id }}/vote_up">
+                    <button name="up_vote" type="submit">UP</button>
+                    </form>
+                    <form name="answer_down_vote" method="post" action="/answers/{{ dict.id }}/vote_down">
+                    <button name="down_vote" type="submit">DOWN</button>
+                    </form>
                 {% endif %}
             {% endfor %}
         {% endfor %}
         <div id="test">
             <div>{{ list }}</div>
         </div>
-        <form name="question" method="post">
+        <form name="question" method="post" enctype="multipart/form-data">
         <div><h4 align="left">Your answer</h4></div>
                 <label for="img">Select image:</label>
-                <input type="file" id="img" name="img" accept="image/jpeg">
+                <input type="file" id="img" name="image" >
                 <textarea name="answer_message" id="answer_form" cols="50" rows="8"></textarea>
         <div id="submit">
             <button type="submit" name="submit">Submit</button>
