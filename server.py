@@ -1,11 +1,14 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, flash
 import data_handler
 from data_handler import QUESTION_DATA_FILE_PATH, question_header, ANSWER_DATA_FILE_PATH, answers_header, \
     TEMPLATE_HEADER
+from werkzeug.utils import secure_filename
 import util
 import os
 
 app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = data_handler.UPLOAD_FOLDER
 
 
 @app.route("/")
@@ -24,18 +27,29 @@ def show_question(question_id):
 @app.route("/add-question", methods=["GET", "POST"])
 def add_question():
     if request.method == 'POST':
-        question_id = data_handler.get_id(data_handler.QUESTION_DATA_FILE_PATH)
-        date = util.get_unix_time()
-        view = 0
-        vote = 0
-        title = request.form['title']
-        message = request.form['message']
-        # image = 'image.jpg'
-        image = request.form['image']
-        # print(img)
+        # question_id = data_handler.get_id(data_handler.QUESTION_DATA_FILE_PATH)
+        # date = util.get_unix_time()
+        # view = 0
+        # vote = 0
+        # title = request.form['title']
+        # message = request.form['message']
+        print(request.files['image'].filename)
+        if 'image' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
 
-        row = [question_id, date, view, vote, title, message, image]
-        data_handler.append_csv_by_row(data_handler.QUESTION_DATA_FILE_PATH, row)
+        image = request.files['image']
+
+        if image.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+
+        if image and util.allowed_file(image.filename):
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        # row = [question_id, date, view, vote, title, message, image]
+        # data_handler.append_csv_by_row(data_handler.QUESTION_DATA_FILE_PATH, row)
 
         return redirect("/")
 
