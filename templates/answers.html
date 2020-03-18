@@ -1,27 +1,29 @@
 {% extends 'layout.html' %}
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
 <div class="answers_grid">
     <div id="question">
         <article id="question">
-            <h3>{{ question.title }}</h3>
-            <textarea id="question" cols="50" rows="8" DISABLED>{{ question.message }}</textarea>
+            <div id="answ_question_title">
+                <h3 >{{ question.title }}</h3>
+            </div>
+            <textarea id="question_area" cols="50" rows="8" DISABLED>{{ question.message }}</textarea>
             <p>{{ question.submission_time }}</p>
         </article>
 
     </div>
     <div id="headers">
-        <div><h2 align="left">Answers</h2></div>
+        <div><h3 id="answers_title" align="left">Answers</h3></div>
     </div>
     <div id="answers">
 
         {% for dict in answers %}
-
             {% for key, value in dict.items() %}
                 {% if key == 'question_id' and value == question.id %}
 
-                    <textarea id="answer_messages" cols="50" rows="8" disabled>{{ dict.message }}</textarea>
+                    <textarea id="answer_textarea" cols="50" rows="8" disabled>{{ dict.message }}</textarea>
                     <p>{{ dict.submission_time }}</p>
-                    <p>Votes {{ dict.vote_number }}</p>
+                    <p id="answer_vote_count">Votes {{ dict.vote_number }}</p>
                     <form name="answer_up_vote" method="post" action="/answers/{{ dict.id }}/vote_up">
                     <button name="up_vote" type="submit">UP</button>
                     </form>
@@ -39,8 +41,9 @@
                 <label for="img">Select image:</label>
                 <input type="file" id="img" name="image" >
                 <textarea name="answer_message" id="answer_form" cols="50" rows="8"></textarea>
-        <div id="submit">
-            <button type="submit" name="submit">Submit</button>
+        <div id="image">
+            <label for="image">Select image:</label>
+            <input name="image" type="file">
         </div>
         </form>
 

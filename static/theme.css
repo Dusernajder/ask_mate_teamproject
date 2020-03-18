@@ -44,6 +44,30 @@
     border: 2px solid black;
     padding: 15px;
 }
-
+#answ_question_title{
+    color: black;
+    font-family: "DejaVu Sans Mono", fantasy;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+#question_area{
+    background-color: white;
+    font-family: "DejaVu Sans Mono", fantasy;
+    align-content: center;
+}
+#answers_title{
+    color: black;
+    font-family: "DejaVu Sans Mono", fantasy;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+#answer_textarea{
+    background-color: white;
+    font-family: "DejaVu Sans Mono", fantasy;
+    align-content: center;
+}
+#answer_vote_count{
+    font-family: "DejaVu Sans Mono", fantasy;
+}
 
 /* Here is where the fun ends */
