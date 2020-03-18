@@ -21,3 +21,18 @@ def sort(path, order):
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in data_handler.ALLOWED_EXTENSIONS
 
+
+def remove_question(question_id):
+    questions = data_handler.read_elements_csv(data_handler.QUESTION_DATA_FILE_PATH)
+    for i, question in enumerate(questions):
+        if question['id'] == question_id:
+            del questions[i]
+    return questions
+
+
+def remove_answers(question_id):
+    answers = data_handler.read_elements_csv(data_handler.ANSWER_DATA_FILE_PATH)
+    for i, answer in enumerate(answers):
+        if answer['id'] == question_id:
+            del answers[i]
+    return answers
