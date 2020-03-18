@@ -12,6 +12,9 @@ QUESTION_CSV_LENGTH = int(sum(1 for row in csv.reader('sample_data/data.csv')) /
 
 TEMPLATE_HEADER = ['TITLE', 'DATE', 'VIEWS', 'VOTES']
 
+UPLOAD_FOLDER = '/static/images/'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+
 
 def read_elements_csv(path):
     temp_lst = []
