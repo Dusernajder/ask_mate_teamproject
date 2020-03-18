@@ -74,14 +74,8 @@ def up_vote_answers(answer_id):
     if request.method == 'POST':
         answers = data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH)
 
-        for dict in answers:
-            for key, value in dict.items():
-                if key == 'id' and value == answer_id:
-                    print(dict['vote_number'])
-                    dict['vote_number'] = str(int(dict['vote_number']) + 1)
-            print(dict)
-        lists_to_write = data_handler.dicts_to_listoflist(answers, answers_header)
-        data_handler.write_table_to_file(ANSWER_DATA_FILE_PATH,lists_to_write,',')
+        data_handler.change_vote(answers, answer_id, 'inc')
+        data_handler.update_csv('answer.csv', [list(answers.values()) for answers in answers], answers_header)
 
     return redirect('/')
 
@@ -92,14 +86,8 @@ def down_vote_answers(answer_id):
     if request.method == 'POST':
         answers = data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH)
 
-        for dict in answers:
-            for key, value in dict.items():
-                if key == 'id' and value == answer_id:
-                    print(dict['vote_number'])
-                    dict['vote_number'] = str(int(dict['vote_number']) - 1)
-            print(dict)
-        lists_to_write = data_handler.dicts_to_listoflist(answers, answers_header)
-        data_handler.write_table_to_file(ANSWER_DATA_FILE_PATH,lists_to_write,',')
+        data_handler.change_vote(answers, answer_id, 'dec')
+        data_handler.update_csv('answer.csv', [list(answers.values()) for answers in answers], answers_header)
 
     return redirect('/')
 
@@ -110,7 +98,8 @@ def delete_question(question_id):
     remove_answers = util.remove_answers(question_id)
     data_handler.update_csv('question.csv', [list(dictionary.values()) for dictionary in remove_from_qs], question_header)
     data_handler.update_csv('answer.csv', [list(dictionary.values()) for dictionary in remove_answers], answers_header)
-    return redirect('/')
+
+    return redirect(request.url)
 
 
 if __name__ == "__main__":

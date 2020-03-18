@@ -58,32 +58,14 @@ def update_csv(path, data, header):
             writer.writerow(row)
 
 
-def dicts_to_listoflist(dict__dicts, header_to_first_row):
-    container = []
-    # converts list of dict to list of list, append the header to the first list
-    if type(dict__dicts) == list:
-        container.append(header_to_first_row)
-        for dict in dict__dicts:
-            temp_lst = []
-            for key, value in dict.items():
-                temp_lst.append(value)
-            container.append(temp_lst)
-    # converts a simple dict to a list with the values
-    else:
-        for key, value in dict__dicts.items():
-            container.append(value)
-    return container
-
-
-def write_table_to_file(file_name, table, separator=','):
-    """Write tabular data into a CSV file.
-
-    Args:
-        file_name: The name of the file to write to.
-        table: list of lists containing tabular data.
-        separator: The CSV separator character
-    """
-    with open(file_name, "w") as file:
-        for record in table:
-            row = separator.join(record)
-            file.write(row + "\n")
+def change_vote(lst_of_dict, id, inc_dec):
+    if inc_dec == 'inc':
+        for actual_dict in lst_of_dict:
+            for key, value in actual_dict.items():
+                if key == 'id' and value == id:
+                    actual_dict['vote_number'] = str(int(actual_dict['vote_number']) + 1)
+    if inc_dec == 'dec':
+        for actual_dict in lst_of_dict:
+            for key, value in actual_dict.items():
+                if key == 'id' and value == id:
+                    actual_dict['vote_number'] = str(int(actual_dict['vote_number']) - 1)
