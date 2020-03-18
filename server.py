@@ -107,14 +107,18 @@ def down_vote_answers(answer_id):
     return redirect('/')
 
 
-@app.route('/delete_question/<question_id>')
-def delete_question(question_id):
-    remove_from_qs = util.remove_question(question_id)
-    remove_answers = util.remove_answers(question_id)
-    data_handler.update_csv('question.csv', [list(dictionary.values()) for dictionary in remove_from_qs],
-                            question_header)
-    data_handler.update_csv('answer.csv', [list(dictionary.values()) for dictionary in remove_answers], answers_header)
-    return redirect('/')
+# @app.route('/delete_question/<question_id>')
+# def delete_question(question_id):
+#     remove_from_qs = util.remove_question(question_id)
+#     remove_answers = util.remove_answers(question_id)
+# <<<<<<< HEAD
+#     data_handler.update_csv('question.csv', [list(dictionary.values()) for dictionary in remove_from_qs],
+#                             question_header)
+# =======
+#     data_handler.update_csv('question.csv', [list(dictionary.values()) for dictionary in remove_from_qs], question_header)
+# >>>>>>> 7c28497e6d1cd3cc8c3a673e27eb64f4f0cb259d
+#     data_handler.update_csv('answer.csv', [list(dictionary.values()) for dictionary in remove_answers], answers_header)
+#     return redirect('/')
 
 
 if __name__ == "__main__":
