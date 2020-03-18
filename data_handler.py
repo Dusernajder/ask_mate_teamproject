@@ -12,7 +12,7 @@ QUESTION_CSV_LENGTH = int(sum(1 for row in csv.reader('sample_data/data.csv')) /
 
 TEMPLATE_HEADER = ['TITLE', 'DATE', 'VIEWS', 'VOTES']
 
-UPLOAD_FOLDER = '/static/images/'
+UPLOAD_FOLDER = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'static/images/'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
@@ -53,9 +53,16 @@ def get_element_by_id(path, target_id):
             return row
 
 
+def update_csv(path, data, header):
+    with open(f'sample_data/{path}', 'w') as file:
+        writer = csv.writer(file)
+        writer.writerow(header)
+        for row in data:
+            writer.writerow(row)
+
+
 def dicts_to_listoflist(dict__dicts, header_to_first_row):
     container = []
-
     # converts list of dict to list of list, append the header to the first list
     if type(dict__dicts) == list:
         container.append(header_to_first_row)

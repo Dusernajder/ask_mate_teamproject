@@ -18,10 +18,6 @@ def sort(path, order):
     return sorted(data, key=lambda item: item[order])
 
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in data_handler.ALLOWED_EXTENSIONS
-
-
 def remove_question(question_id):
     questions = data_handler.read_elements_csv(data_handler.QUESTION_DATA_FILE_PATH)
     for i, question in enumerate(questions):
