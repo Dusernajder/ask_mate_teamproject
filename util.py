@@ -1,5 +1,5 @@
 from datetime import datetime
-import time
+from time import time
 import data_handler
 
 
@@ -10,7 +10,7 @@ def convert_timestamp_to_date(data):
 
 
 def get_unix_time():
-    return str(time.time())[:8]
+    return str(int(time()))
 
 
 def sort(path, order):
