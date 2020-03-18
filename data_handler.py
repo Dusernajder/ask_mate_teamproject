@@ -18,9 +18,9 @@ def read_elements_csv(path):
     with open(path) as file:
         csv_reader = csv.reader(file)
         data = list(csv_reader)
-        header = data[0]
+        fieldnames = data[0]
         for row in data[1:]:
-            dictionary = {key: value for key, value in zip(header, row)}
+            dictionary = {key: value for key, value in zip(fieldnames, row)}
             temp_lst.append(dictionary)
         return temp_lst
 
@@ -48,4 +48,3 @@ def get_element_by_id(path, target_id):
     for row in read_elements_csv(path):
         if row['id'] == str(target_id):
             return row
-

@@ -29,7 +29,9 @@ def add_question():
         vote = 0
         title = request.form['title']
         message = request.form['message']
-        image = 'iamge.jpg'  # It will change
+        # image = 'image.jpg'
+        image = request.form['image']
+        # print(img)
 
         row = [question_id, date, view, vote, title, message, image]
         data_handler.append_csv_by_row(data_handler.QUESTION_DATA_FILE_PATH, row)
