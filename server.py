@@ -1,14 +1,14 @@
 from flask import Flask, render_template, redirect, request, url_for, flash
 import data_handler
 from data_handler import QUESTION_DATA_FILE_PATH, question_header, ANSWER_DATA_FILE_PATH, answers_header, \
-    TEMPLATE_HEADER
+    TEMPLATE_HEADER, UPLOAD_FOLDER
 from werkzeug.utils import secure_filename
 import util
 import os
 
 app = Flask(__name__)
-
-app.config['UPLOAD_FOLDER'] = data_handler.UPLOAD_FOLDER
+app.secret_key = "secret_key"
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route("/")
@@ -27,31 +27,19 @@ def show_question(question_id):
 @app.route("/add-question", methods=["GET", "POST"])
 def add_question():
     if request.method == 'POST':
-        # question_id = data_handler.get_id(data_handler.QUESTION_DATA_FILE_PATH)
-        # date = util.get_unix_time()
-        # view = 0
-        # vote = 0
-        # title = request.form['title']
-        # message = request.form['message']
-        print(request.files['image'].filename)
-        if 'image' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
+        question_id = data_handler.get_id(data_handler.QUESTION_DATA_FILE_PATH)
+        date = util.get_unix_time()
+        view = 0
+        vote = 0
+        title = request.form['title']
+        message = request.form['message']
 
+        # You can not upload a question without a picture yet :(
         image = request.files['image']
+        image.save(os.path.join(UPLOAD_FOLDER, secure_filename(image.filename)))
 
-        if image.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-
-        if image and util.allowed_file(image.filename):
-            filename = secure_filename(image.filename)
-            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-        # row = [question_id, date, view, vote, title, message, image]
-        # data_handler.append_csv_by_row(data_handler.QUESTION_DATA_FILE_PATH, row)
-
-        return redirect("/")
+        row = [question_id, date, view, vote, title, message, image.filename]
+        data_handler.append_csv_by_row(data_handler.QUESTION_DATA_FILE_PATH, row)
 
     return render_template('add_question.html')
 
@@ -116,6 +104,16 @@ def down_vote_answers(answer_id):
         lists_to_write = data_handler.dicts_to_listoflist(answers, answers_header)
         data_handler.write_table_to_file(ANSWER_DATA_FILE_PATH, lists_to_write, ',')
 
+    return redirect('/')
+
+
+@app.route('/delete_question/<question_id>')
+def delete_question(question_id):
+    remove_from_qs = util.remove_question(question_id)
+    remove_answers = util.remove_answers(question_id)
+    data_handler.update_csv('question.csv', [list(dictionary.values()) for dictionary in remove_from_qs],
+                            question_header)
+    data_handler.update_csv('answer.csv', [list(dictionary.values()) for dictionary in remove_answers], answers_header)
     return redirect('/')
 
 
