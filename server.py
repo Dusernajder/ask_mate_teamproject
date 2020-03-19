@@ -18,13 +18,6 @@ def home():
     return render_template('home.html', questions=questions, headers=TEMPLATE_HEADER)
 
 
-@app.route('/question/<question_id>')
-def show_question(question_id):
-    selected_question = data_handler.get_element_by_id(QUESTION_DATA_FILE_PATH, question_id)
-    answers = data_handler.get_element_by_id(ANSWER_DATA_FILE_PATH, question_id)
-    return render_template('question.html', question=selected_question, answers=answers)
-
-
 @app.route("/add-question", methods=["GET", "POST"])
 def add_question():
     if request.method == 'POST':
