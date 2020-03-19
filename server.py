@@ -35,9 +35,10 @@ def add_question():
         title = request.form['title']
         message = request.form['message']
 
-        # You can not upload a question without a picture yet :(
+        # You can NOT upload a question without a picture yet :(
         image = request.files['image']
-        image.save(os.path.join(UPLOAD_FOLDER, secure_filename(image.filename)))
+        if image.filename != '':
+            image.save(os.path.join(UPLOAD_FOLDER, secure_filename(image.filename)))
 
         row = [question_id, date, view, vote, title, message, image.filename]
         data_handler.append_csv_by_row(data_handler.QUESTION_DATA_FILE_PATH, row)
@@ -75,8 +76,8 @@ def up_vote_answers(answer_id):
     if request.method == 'POST':
         answers = data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH)
 
-        data_handler.change_vote(answers, answer_id, 'inc')
-        data_handler.update_csv('answer.csv', [list(answers.values()) for answers in answers], answers_header)
+        data_handler.change_vote(answers, answer_id, 'increment')
+        data_handler.update_csv('answer.csv', [list(answer.values()) for answer in answers], answers_header)
 
         question_id = data_handler.get_question_id(answer_id, answers)
 
@@ -88,8 +89,8 @@ def down_vote_answers(answer_id):
     if request.method == 'POST':
         answers = data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH)
 
-        data_handler.change_vote(answers, answer_id, 'dec')
-        data_handler.update_csv('answer.csv', [list(answers.values()) for answers in answers], answers_header)
+        data_handler.change_vote(answers, answer_id, 'decrement')
+        data_handler.update_csv('answer.csv', [list(answer.values()) for answer in answers], answers_header)
         question_id = data_handler.get_question_id(answer_id, answers)
 
         return redirect(f'/answers/{question_id}')
