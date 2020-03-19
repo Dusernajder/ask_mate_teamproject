@@ -3,6 +3,7 @@ import data_handler
 from data_handler import QUESTION_DATA_FILE_PATH, question_header, ANSWER_DATA_FILE_PATH, answers_header, \
     TEMPLATE_HEADER, UPLOAD_FOLDER
 from werkzeug.utils import secure_filename
+
 import util
 import os
 
@@ -44,9 +45,6 @@ def add_question():
     return render_template('add_question.html')
 
 
-app.config['UPLOAD_IMAGE'] = '/home/dani/PycharmProjects/ask_mate_teamproject/static/image'
-
-
 @app.route('/answers/<question_id>', methods=['GET', 'POST'])
 def answers(question_id):
     list_to_csv = []
@@ -56,8 +54,6 @@ def answers(question_id):
     answers = util.convert_timestamp_to_date(data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH))
 
     if request.method == 'POST':
-        image = request.files['image']
-        image.save(os.path.join(UPLOAD_FOLDER, secure_filename(image.filename)))
 
         message = request.form['answer_message']
 
@@ -71,7 +67,7 @@ def answers(question_id):
         data_handler.append_csv_by_row(ANSWER_DATA_FILE_PATH, temp_lst)
         return redirect('/')
 
-    return render_template('answers.html', question=question_dict, answers=answers, )
+    return render_template('answers.html', question=question_dict, answers=answers)
 
 
 @app.route('/answers/<answer_id>/vote_up', methods=['GET', 'POST'])
@@ -108,20 +104,6 @@ def delete_question(question_id):
     data_handler.update_csv('answer.csv', [list(dictionary.values()) for dictionary in remove_answers], answers_header)
 
     return redirect(request.url)
-
-
-# @app.route('/delete_question/<question_id>')
-# def delete_question(question_id):
-#     remove_from_qs = util.remove_question(question_id)
-#     remove_answers = util.remove_answers(question_id)
-# <<<<<<< HEAD
-#     data_handler.update_csv('question.csv', [list(dictionary.values()) for dictionary in remove_from_qs],
-#                             question_header)
-# =======
-#     data_handler.update_csv('question.csv', [list(dictionary.values()) for dictionary in remove_from_qs], question_header)
-# >>>>>>> 7c28497e6d1cd3cc8c3a673e27eb64f4f0cb259d
-#     data_handler.update_csv('answer.csv', [list(dictionary.values()) for dictionary in remove_answers], answers_header)
-#     return redirect('/')
 
 
 if __name__ == "__main__":
