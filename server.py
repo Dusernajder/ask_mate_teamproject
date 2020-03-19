@@ -108,15 +108,16 @@ def down_vote_answers(answer_id):
         return redirect(f'/answers/{question_id}')
 
 
-@app.route('/delete_question/<question_id>')
+@app.route('/delete_question/<question_id>', methods=['POST'])
 def delete_question(question_id):
-    remove_from_qs = util.remove_question(question_id)
-    remove_answers = util.remove_answers(question_id)
-    data_handler.update_csv('question.csv', [list(dictionary.values()) for dictionary in remove_from_qs],
-                            question_header)
-    data_handler.update_csv('answer.csv', [list(dictionary.values()) for dictionary in remove_answers], answers_header)
+    if request.method == 'POST':
+        remove_from_qs = util.remove_question(question_id)
+        remove_answers = util.remove_answers(question_id)
+        data_handler.update_csv('question.csv', [list(dictionary.values()) for dictionary in remove_from_qs],
+                                question_header)
+        data_handler.update_csv('answer.csv', [list(dictionary.values()) for dictionary in remove_answers], answers_header)
 
-    return redirect(request.url)
+    return redirect('/')
 
 
 if __name__ == "__main__":
