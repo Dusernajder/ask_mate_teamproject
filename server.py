@@ -53,7 +53,7 @@ def answers(question_id):
     temp_lst = []
 
     question_dict = data_handler.get_element_by_id(QUESTION_DATA_FILE_PATH, question_id)
-    answers = data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH)
+    answers = util.convert_timestamp_to_date(data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH))
 
     if request.method == 'POST':
         image = request.files['image']
@@ -67,7 +67,6 @@ def answers(question_id):
         for item in answer_container:
             temp_lst.append(item)
 
-        print(temp_lst)
         list_to_csv.append(temp_lst)
         data_handler.append_csv_by_row(ANSWER_DATA_FILE_PATH, temp_lst)
         return redirect('/')
@@ -83,7 +82,9 @@ def up_vote_answers(answer_id):
         data_handler.change_vote(answers, answer_id, 'inc')
         data_handler.update_csv('answer.csv', [list(answers.values()) for answers in answers], answers_header)
 
-    return redirect('/')
+        question_id = data_handler.get_question_id(answer_id, answers)
+
+        return redirect(f'/answers/{question_id}')
 
 
 @app.route('/answers/<answer_id>/vote_down', methods=['GET', 'POST'])
@@ -93,8 +94,9 @@ def down_vote_answers(answer_id):
 
         data_handler.change_vote(answers, answer_id, 'dec')
         data_handler.update_csv('answer.csv', [list(answers.values()) for answers in answers], answers_header)
+        question_id = data_handler.get_question_id(answer_id, answers)
 
-    return redirect('/')
+        return redirect(f'/answers/{question_id}')
 
 
 @app.route('/delete_question/<question_id>')
