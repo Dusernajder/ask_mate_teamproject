@@ -35,6 +35,7 @@ def add_question():
 
         row = [question_id, date, view, vote, title, message, image.filename]
         data_handler.append_csv_by_row(data_handler.QUESTION_DATA_FILE_PATH, row)
+        return redirect("/")
 
     return render_template('add_question.html')
 
