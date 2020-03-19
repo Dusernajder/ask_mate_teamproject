@@ -2,14 +2,20 @@
 
 {% block content %}
     <div class="list_grid">
-        <div class="order_buttons">
-            <div>
-                <button>Press Me :)</button>
+        {% for question in questions %}
+            <div class="order_buttons">
+                <form name="question_up_vote" method="post" action="/{{ question.id }}/vote_up">
+                <div>
+                    <button>Press Me :)</button>
+                </div>
+                </form>
+                <form name="question_down_vote" method="post" action="/{{ question.id }}/vote_down">
+                <div>
+                    <button>Press Me :)</button>
+                </div>
+                </form>
             </div>
-            <div>
-                <button>Press Me :)</button>
-            </div>
-        </div>
+        {% endfor %}
         <div id="headers">
             {% for header in headers %}
                 <div>{{ header }}</div>

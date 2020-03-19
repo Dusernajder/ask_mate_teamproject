@@ -18,6 +18,24 @@ def home():
     return render_template('home.html', questions=questions, headers=TEMPLATE_HEADER)
 
 
+@app.route('/<question_id>/vote_up', methods=['GET', 'POST'])
+def question_upvote(question_id):
+    if request.method == 'POST':
+        questions = data_handler.read_elements_csv(QUESTION_DATA_FILE_PATH)
+        data_handler.change_vote(questions,question_id,'increment')
+        data_handler.update_csv('question.csv', [list(question.values()) for question in questions], question_header)
+        return redirect('/')
+
+
+@app.route('/<question_id>/vote_down', methods=['GET', 'POST'])
+def question_downvote(question_id):
+    if request.method == 'POST':
+        questions = data_handler.read_elements_csv(QUESTION_DATA_FILE_PATH)
+        data_handler.change_vote(questions,question_id,'decrease')
+        data_handler.update_csv('question.csv', [list(question.values()) for question in questions], question_header)
+        return redirect('/')
+
+
 @app.route("/add-question", methods=["GET", "POST"])
 def add_question():
     if request.method == 'POST':
