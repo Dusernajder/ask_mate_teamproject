@@ -3,13 +3,27 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
 <div class="answers_grid">
     <div id="question">
-        <article id="question">
             <div id="answ_question_title">
                 <h3 >{{ question.title }}</h3>
             </div>
-            <textarea id="question_area" cols="50" rows="8" DISABLED>{{ question.message }}</textarea>
-            <p>{{ question.submission_time }}</p>
-        </article>
+                <div id="question_textbox">
+                    <div>{{ question.message }}</div>
+                </div>
+                <div id="submission_time">
+                    <p>{{ question.submission_time }}</p>
+                </div>
+                <div class="order_buttons">
+                        <form name="question_up_vote" method="post" action="/answers/{{ question.id }}/vote_up">
+                    <div>
+                        <button>Press Me UP :)</button>
+                    </div>
+                    </form>
+                    <form name="question_down_vote" method="post" action="/answers/{{ question.id }}/vote_down">
+                        <div>
+                            <button>Press Me DOWN :)</button>
+                        </div>
+                    </form>
+                </div>
 
     </div>
     <div id="answer_headers">
@@ -20,14 +34,18 @@
         {% for dict in answers %}
             {% for key, value in dict.items() %}
                 {% if key == 'question_id' and value == question.id %}
-                    <div id="answer_padding">
                     <strong>
-                    <textarea id="answer_textarea" cols="50" rows="8"  disabled>{{ dict.message }}</textarea>
+                        <div id="answer_textbox">
+                            <div>{{ dict.message }}</div>
+                        </div>
                     </strong>
-                    </div>
                     <strong>
-                    <p>{{ dict.submission_time }}</p>
-                    <p id="answer_vote_count">Votes {{ dict.vote_number }}</p>
+                    <div id="submission_time">
+                        <p>{{ dict.submission_time }}</p>
+                    </div>
+                    <div id="answer_vote">
+                        <p id="answer_vote_count">Votes {{ dict.vote_number }}</p>
+                    </div>
                     </strong>
                     <div>
                     <form name="answer_up_vote" method="post" action="/answers/{{ dict.id }}/vote_up">
@@ -48,17 +66,12 @@
         </div>
         </div>
         <div id="your_answer">
-        <form name="question" method="post" enctype="multipart/form-data">
-        <div><h4 id="Y_answer" align="left">Your answer:</h4></div>
+            <form name="question" method="post" enctype="multipart/form-data">
+            <div><h4 id="Y_answer" align="left">Your answer:</h4></div>
                 <textarea name="answer_message" id="answer_form" cols="50" rows="8"></textarea>
             <div id="slct_img">
                 <input type="file" id="img" name="image" >
             </div>
-
-        <div id="image">
-            <label for="image">Select image:</label>
-            <input name="image" type="file">
-        </div>
         </form>
         </div>
 
