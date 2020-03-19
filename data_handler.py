@@ -73,7 +73,8 @@ def change_vote(lst_of_dict, id, inc_dec):
                 if key == 'id' and value == id:
                     actual_dict['vote_number'] = str(int(actual_dict['vote_number']) - 1)
 
-def get_question_id(id,lst_of_dict):
+
+def get_question_id(id, lst_of_dict):
     for target_dict in lst_of_dict:
         for key, value in target_dict.items():
             if key == 'id' and value == id:
