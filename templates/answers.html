@@ -12,7 +12,7 @@
         </article>
 
     </div>
-    <div id="headers">
+    <div id="answer_headers">
         <div><h3 id="answers_title" align="left">Answers</h3></div>
     </div>
     <div id="answers">
@@ -20,34 +20,48 @@
         {% for dict in answers %}
             {% for key, value in dict.items() %}
                 {% if key == 'question_id' and value == question.id %}
-
-                    <textarea id="answer_textarea" cols="50" rows="8" disabled>{{ dict.message }}</textarea>
+                    <div id="answer_padding">
+                    <strong>
+                    <textarea id="answer_textarea" cols="50" rows="8"  disabled>{{ dict.message }}</textarea>
+                    </strong>
+                    </div>
+                    <strong>
                     <p>{{ dict.submission_time }}</p>
                     <p id="answer_vote_count">Votes {{ dict.vote_number }}</p>
+                    </strong>
+                    <div>
                     <form name="answer_up_vote" method="post" action="/answers/{{ dict.id }}/vote_up">
-                    <button name="up_vote" type="submit">UP</button>
+                    <button name="up_vote" class="up_button" id="up_button" type="submit">UP</button>
                     </form>
-                    <form name="answer_down_vote" method="post" action="/answers/{{ dict.id }}/vote_down">
+                    </div>
+                    <div>
+                    <form name="answer_down_vote" class="down_button" id="down_button" method="post" action="/answers/{{ dict.id }}/vote_down">
                     <button name="down_vote" type="submit">DOWN</button>
                     </form>
+                    </div>
+
                 {% endif %}
             {% endfor %}
         {% endfor %}
         <div id="test">
             <div>{{ list }}</div>
         </div>
+        </div>
+        <div id="your_answer">
         <form name="question" method="post" enctype="multipart/form-data">
-        <div><h4 align="left">Your answer</h4></div>
-                <label for="img">Select image:</label>
-                <input type="file" id="img" name="image" >
+        <div><h4 id="Y_answer" align="left">Your answer:</h4></div>
                 <textarea name="answer_message" id="answer_form" cols="50" rows="8"></textarea>
+            <div id="slct_img">
+                <input type="file" id="img" name="image" >
+            </div>
+
         <div id="image">
             <label for="image">Select image:</label>
             <input name="image" type="file">
         </div>
         </form>
+        </div>
 
-    </div>
 
 </div>
 {% endblock %}

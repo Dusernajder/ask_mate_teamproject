@@ -54,6 +54,7 @@
     background-color: white;
     font-family: "DejaVu Sans Mono", fantasy;
     align-content: center;
+
 }
 #answers_title{
     color: black;
@@ -62,12 +63,22 @@
     text-transform: uppercase;
 }
 #answer_textarea{
-    background-color: white;
+    background-color: lavender;
     font-family: "DejaVu Sans Mono", fantasy;
     align-content: center;
 }
-#answer_vote_count{
+#answer_vote_count {
     font-family: "DejaVu Sans Mono", fantasy;
 }
+#Y_answer{
+    font-family: "DejaVu Sans Mono", fantasy;
+}
+#answer_headers{
+    border-bottom: 10px lavender;
+}
+#your_answer{
+    padding-top: 10px;
+}
+
 
 /* Here is where the fun ends */
