@@ -13,7 +13,9 @@ app.js (bundled file with webpack, including jquery)",images/image1.png
 
 This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
 4,15844816,0,0,What`s the dinner,I don`t know,iamge.jpg
-5,1584558791,0,0,title,message,Képernyőfotó 2020-03-17 - 22.35.33.png
-4,15844816,0,0,What`s the dinner,"I don`t know 
-
-
+4,15844816,0,0,What`s the dinner,"I don`t know
+",
+5,1584617134,0,0,nopic,message,
+6,1584619260,0,0,Nuns,message,IMG_0513.png
+7,1584619304,0,0,You need me,Jesus,IMG_0586.jpeg
+8,1584619405,0,0,M'lord,Our lord and savior,IMG_0632.jpeg
