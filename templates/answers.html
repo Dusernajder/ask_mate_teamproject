@@ -1,14 +1,26 @@
 {% extends 'layout.html' %}
 {% block css %}
     <style>
+        .answers_grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            padding: 10px;
+
+        }
         #question {
             padding: 10px;
+            border: solid purple 2px;
+            display: grid;
+            grid-gap: 10px;
         }
         #buttons {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 3fr;
         }
         .answers {
+            display: grid;
+            grid-template-rows: 1fr;
+            grid-gap: 10px;
             padding: 10px;
         }
         #answ_votes {
@@ -17,98 +29,107 @@
             text-align: center;
         }
         #answers {
-            margin: 10px;
+            border: solid black 2px;
+            padding: 10px;
+            display: grid;
+            grid-template-rows: 1fr;
+            grid-gap: 10px;
+        }
+        #answer_headers {
+            padding: 10px;
+        }
+        #your_answer {
             padding: 10px;
         }
     </style>
 {% endblock %}
 {% block content %}
 <div class="answers_grid">
-    <div id="question">
-            <div id="answ_question_title">
-                <h3 >{{ question.title }}</h3>
-            </div>
-            <div id="question_textbox">
-                <div>{{ question.message }}</div>
-            </div>
-            <div id="submission_time">
-                <p>{{ question.submission_time }}</p>
-            </div>
-            <div id="buttons">
-                <div>
-                    <form name="question_up_vote" method="post" action="/answers/{{ question.id }}/vote_up">
-                        <button>Press Me UP :)</button>
-                    </form>
+    <div>
+        <div id="question">
+                <div id="answ_question_title">
+                    <h3 >{{ question.title }}</h3>
                 </div>
-                <div>
-                    <form name="question_down_vote" method="post" action="/answers/{{ question.id }}/vote_down">
-                        <button>Press Me DOWN :)</button>
-                     </form>
+                <div id="question_textbox">
+                    <div>{{ question.message }}</div>
+                </div>
+                <div id="submission_time">
+                    <p>{{ question.submission_time }}</p>
+                </div>
+                <div id="buttons">
+                    <div>
+                        <form name="question_up_vote" method="post" action="/answers/{{ question.id }}/vote_up">
+                            <button>Up</button>
+                        </form>
+                    </div>
+                    <div>
+                        <form name="question_down_vote" method="post" action="/answers/{{ question.id }}/vote_down">
+                            <button>Down</button>
+                         </form>
+                    </div>
+
+                    <div>
+                        <form name="delete_question" method="post" action="/delete_question/{{ question.id }}">
+                            <button>Delete</button>
+                        </form>
+
+                    </div>
+                    <div>
+
+                    </div>
                 </div>
 
-                <div>
-                    <form name="delete_question" method="post" action="/delete_question/{{ question.id }}">
-                        <button>Delete</button>
-                    </form>
-                    
-                </div>
-                <div>
-
-                </div>
-            </div>
-
-    </div>
-    <div class="answers">
+        </div>
         <div id="answer_headers">
             <h3 id="answers_title" align="left">Answers</h3>
         </div>
-        <div id="answers">
-            {% for dict in answers %}
-                {% for key, value in dict.items() %}
-                    {% if key == 'question_id' and value == question.id %}
-                        <strong>
-                            <div id="answer_textbox">
-                                <div>{{ dict.message }}</div>
+        <div class="answers">
+                {% for dict in answers %}
+                    {% for key, value in dict.items() %}
+                        {% if key == 'question_id' and value == question.id %}
+                            <div id="answers">
+                                <strong>
+                                <div id="answer_textbox">
+                                    <div>{{ dict.message }}</div>
+                                </div>
+                                </strong>
+                                <div id="submission_time">
+                                    <p>{{ dict.submission_time }}</p>
+                                </div>
+                                <div id="answer_vote">
+                                    <p id="answer_vote_count">Votes {{ dict.vote_number }}</p>
+                                </div>
+                                <div id="answ_votes">
+                                    <div>
+                                        <form name="answer_up_vote" method="post" action="/answers/{{ dict.id }}/vote_up">
+                                            <button name="up_vote" class="up_button" id="up_button" type="submit">UP</button>
+                                        </form>
+                                    </div>
+                                    <div>
+                                        <form name="answer_down_vote" class="down_button" id="down_button" method="post" action="/answers/{{ dict.id }}/vote_down">
+                                            <button name="down_vote" type="submit">DOWN</button>
+                                        </form>
+                                    </div>
+                                    <div></div>
+                                </div>
                             </div>
-                        </strong>
-                        <div id="submission_time">
-                            <p>{{ dict.submission_time }}</p>
-                        </div>
-                        <div id="answer_vote">
-                            <p id="answer_vote_count">Votes {{ dict.vote_number }}</p>
-                        </div>
-                        <div id="answ_votes">
-                            <div>
-                                <form name="answer_up_vote" method="post" action="/answers/{{ dict.id }}/vote_up">
-                                    <button name="up_vote" class="up_button" id="up_button" type="submit">UP</button>
-                                </form>
-                            </div>
-                            <div>
-                                <form name="answer_down_vote" class="down_button" id="down_button" method="post" action="/answers/{{ dict.id }}/vote_down">
-                                    <button name="down_vote" type="submit">DOWN</button>
-                                </form>
-                            </div>
-                            <div></div>
-                        </div>
-
-                    {% endif %}
+                        {% endif %}
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-        </div>
-        <div id="test">
-            <div>{{ list }}</div>
-        </div>
-        </div>
-        <div id="your_answer">
-            <form name="question" method="post" enctype="multipart/form-data">
-            <div><h4 id="Y_answer" align="left">Your answer:</h4></div>
-                <textarea name="answer_message" id="answer_form" cols="50" rows="8"></textarea>
-            <div id="slct_img">
-                <input type="file" id="img" name="image" >
+            <div id="test">
+                <div>{{ list }}</div>
             </div>
-        </form>
-        </div>
-
-
+            </div>
+            <div id="your_answer">
+                <form name="question" method="post" enctype="multipart/form-data">
+                <div><h4 id="Y_answer" align="left">Your answer:</h4></div>
+                    <textarea name="answer_message" id="answer_form" cols="50" rows="8"></textarea>
+                <div id="slct_img">
+                    <input type="file" id="img" name="image" >
+                </div>
+            </form>
+            </div>
+    </div>
+    <div></div>
 </div>
 {% endblock %}
