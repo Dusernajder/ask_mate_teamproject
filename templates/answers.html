@@ -107,12 +107,12 @@
                                 <div id="answ_votes">
                                     <div>
                                         <form name="answer_up_vote" method="post" action="/answers/{{ dict.id }}/vote_up">
-                                            <button name="up_vote" class="up_button" id="up_button" type="submit">UP</button>
+                                            <button name="answer_up_vote" class="up_button" id="up_button" type="submit">UP</button>
                                         </form>
                                     </div>
                                     <div>
                                         <form name="answer_down_vote" class="down_button" id="down_button" method="post" action="/answers/{{ dict.id }}/vote_down">
-                                            <button name="down_vote" type="submit">DOWN</button>
+                                            <button name="answer_down_vote" type="submit">DOWN</button>
                                         </form>
                                     </div>
                                     <div></div>
