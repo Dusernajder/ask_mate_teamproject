@@ -64,6 +64,7 @@ def answers(question_id):
     temp_lst = []
 
     question_dict = data_handler.get_element_by_id(QUESTION_DATA_FILE_PATH, question_id)
+    question_dict['submission_time'] = util.convert_timestamp_to_date_string(question_dict['submission_time'])
     answers = util.convert_timestamp_to_date_dict(data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH))
 
     if request.method == 'POST':
