@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="questionbox">
+        <div id="q_main">
+            <h2>{{ question.title }}</h2>
+            <p>{{ question.message }}</p>
+        </div>
+        <div id="q_meta">
+            {{ question.submission_time }}
+        </div>
+    </div>
+    <div class="answers">
+        {{ answers }}
+{#        {% for answer in answers %}#}
+{#        <div id="answerbox">#}
+{#            <h2>{{ answer }}</h2>#}
+{#            <p>{{ answer.submission_time }}</p>#}
+{#        </div>#}
+{#        {% endfor %}#}
+    </div>
+{% endblock %}

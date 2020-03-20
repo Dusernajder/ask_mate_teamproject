@@ -92,6 +92,11 @@
                                 <div id="answer_textbox">
                                     <div>{{ dict.message }}</div>
                                 </div>
+                                {% if dict.image %}
+                                    <div id="answers_image">
+                                        <img src="{{ url_for('static', filename='images/' + dict.image) }}" width="100">
+                                    </div>
+                                {% endif %}
                                 </strong>
                                 <div id="submission_time">
                                     <p>{{ dict.submission_time }}</p>
@@ -124,6 +129,7 @@
                 <form name="question" method="post" enctype="multipart/form-data">
                 <div><h4 id="Y_answer" align="left">Your answer:</h4></div>
                     <textarea name="answer_message" id="answer_form" cols="50" rows="8"></textarea>
+                <button id="submit_your_answer" type="submit">Submit</button>
                 <div id="slct_img">
                     <input type="file" id="img" name="image" >
                 </div>

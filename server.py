@@ -14,7 +14,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/")
 def home():
-    questions = util.convert_timestamp_to_date(data_handler.read_elements_csv(QUESTION_DATA_FILE_PATH))
+    questions = util.convert_timestamp_to_date_dict(data_handler.read_elements_csv(QUESTION_DATA_FILE_PATH))
     return render_template('home.html', questions=questions, headers=TEMPLATE_HEADER)
 
 
@@ -64,17 +64,20 @@ def answers(question_id):
     temp_lst = []
 
     question_dict = data_handler.get_element_by_id(QUESTION_DATA_FILE_PATH, question_id)
-    answers = util.convert_timestamp_to_date(data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH))
+    answers = util.convert_timestamp_to_date_dict(data_handler.read_elements_csv(ANSWER_DATA_FILE_PATH))
 
     if request.method == 'POST':
 
         message = request.form['answer_message']
+        image = request.files['image']
 
         answer_container = [str(data_handler.get_id(ANSWER_DATA_FILE_PATH)), str(util.get_unix_time()), '0',
-                            question_id, message, ]
+                            question_id, message, image.filename]
 
         for item in answer_container:
             temp_lst.append(item)
+        if image.filename != '':
+            image.save(os.path.join(UPLOAD_FOLDER, secure_filename(image.filename)))
 
         list_to_csv.append(temp_lst)
         data_handler.append_csv_by_row(ANSWER_DATA_FILE_PATH, temp_lst)
