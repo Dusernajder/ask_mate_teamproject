@@ -82,7 +82,7 @@ def answers(question_id):
 
         list_to_csv.append(temp_lst)
         data_handler.append_csv_by_row(ANSWER_DATA_FILE_PATH, temp_lst)
-        return redirect('/')
+        return redirect(f'/answers/{question_id}')
 
     return render_template('answers.html', question=question_dict, answers=answers)
 
